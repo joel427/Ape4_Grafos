@@ -126,83 +126,37 @@ public class APE4_Grafos {
         // Ruta con menor distancia
         // ═══════════════════════════════════
         public List<String> dijkstra(String inicio, String fin) {
+    Map<String, Integer> distancias = new HashMap<>();
+    Map<String, String> anteriores = new HashMap<>();
+    PriorityQueue<String> cola = new PriorityQueue<>(Comparator.comparingInt(distancias::get));
 
-            Map<String, Integer> distancias =
-                    new HashMap<>();
+    for (String nodo : nodos.keySet()) {
+        distancias.put(nodo, Integer.MAX_VALUE);
+    }
+    
+    distancias.put(inicio, 0);
+    cola.add(inicio);
 
-            Map<String, String> anteriores =
-                    new HashMap<>();
+    while (!cola.isEmpty()) {
+        String actual = cola.poll();
+        if (actual.equals(fin)) break;
 
-            PriorityQueue<String> cola =
-                    new PriorityQueue<>(
-                            Comparator.comparingInt(
-                                    distancias::get
-                            )
-                    );
-
-            // Inicializar distancias
-            for (String nodo : nodos.keySet()) {
-
-                // TODO:
-                // Inicializar distancia infinita
-
-
+        for (Arista arista : adyacencia.getOrDefault(actual, new ArrayList<>())) {
+            int nuevaDistancia = distancias.get(actual) + arista.peso;
+            if (nuevaDistancia < distancias.get(arista.destino)) {
+                distancias.put(arista.destino, nuevaDistancia);
+                anteriores.put(arista.destino, actual);
+                cola.add(arista.destino);
             }
-
-            // TODO:
-            // Distancia del inicio = 0
-
-
-            // TODO:
-            // Agregar inicio a la cola
-
-
-            while (!cola.isEmpty()) {
-
-                // TODO:
-                // Obtener nodo con menor distancia
-
-
-                for (Arista arista : adyacencia.get(actual)) {
-
-                    // TODO:
-                    // Calcular nueva distancia
-
-
-                    // TODO:
-                    // Verificar si nuevaDistancia es menor
-
-
-                        // TODO:
-                        // Actualizar distancia
-
-
-                        // TODO:
-                        // Guardar nodo anterior
-
-
-                        // TODO:
-                        // Agregar vecino a la cola
-
-                    }
-                }
-            }
-
-            // Reconstruir camino
-            List<String> camino = new ArrayList<>();
-
-            String actual = fin;
-
-            while (actual != null) {
-
-                camino.add(0, actual);
-
-                actual = anteriores.get(actual);
-            }
-
-            return camino;
         }
+    }
 
+    List<String> camino = new ArrayList<>();
+    for (String at = fin; at != null; at = anteriores.get(at)) {
+        camino.add(0, at);
+    }
+    return camino.get(0).equals(inicio) ? camino : null;
+}
         // ═══════════════════════════════════
         // Mostrar resultado
         // ═══════════════════════════════════
