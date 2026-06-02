@@ -81,24 +81,26 @@ public class APE4_Grafos {
             // TODO:
             // Agregar nodo inicio al camino inicial
 
-
+                caminoInicial.add(inicio);
             // TODO:
             // Agregar caminoInicial a la cola
-
+                cola.add(caminoInicial);
 
             // TODO:
             // Marcar inicio como visitado
+               visitados.add(inicio);
 
 
             while (!cola.isEmpty()) {
 
                 // TODO:
                 // Obtener el primer camino de la cola
+                List<String> camino = cola.poll();
+              
 
 
                 // Nodo actual
-                String actual =
-                        camino.get(camino.size() - 1);
+                String actual=camino.get(camino.size() - 1);
 
                 // Si llegamos al destino
                 if (actual.equals(fin)) {
@@ -107,26 +109,11 @@ public class APE4_Grafos {
 
                 // Recorrer vecinos
                 for (Arista arista : adyacencia.get(actual)) {
-
-                    // TODO:
-                    // Verificar si el vecino NO fue visitado
-
-
-                        // TODO:
-                        // Marcar vecino como visitado
-
-
-                        // Crear nuevo camino
-                        List<String> nuevoCamino =
-                                new ArrayList<>(camino);
-
-                        // TODO:
-                        // Agregar vecino al nuevo camino
-
-
-                        // TODO:
-                        // Agregar nuevoCamino a la cola
-
+                if (!visitados.contains(arista.destino)) {
+                visitados.add(arista.destino);
+                List<String> nuevoCamino = new ArrayList<>(camino);
+                nuevoCamino.add(arista.destino);
+                cola.add(nuevoCamino);
                     }
                 }
             }
