@@ -43,6 +43,8 @@ public class APE4_Grafos {
         public void agregarNodo(String id, String nombre) {
 
             // COMPLETE AQUÍ
+            nodos.put(id, new Nodo(id, nombre));
+            adyacencia.putIfAbsent(id, new ArrayList<>());
 
 
         }
@@ -54,6 +56,9 @@ public class APE4_Grafos {
         public void agregarArista(String origen, String destino, int peso) {
 
             // COMPLETE AQUÍ
+            // Como es no dirigida, agregamos en ambas direcciones
+             adyacencia.get(origen).add(new Arista(destino, peso));
+             adyacencia.get(destino).add(new Arista(origen, peso));
 
 
         }
